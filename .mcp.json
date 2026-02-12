@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "chrome-bridge": {
+      "command": "node",
+      "args": ["./server/build/index.js"],
+      "env": {
+        "BRIDGE_WS_PORT": "7483"
+      }
+    }
+  }
+}

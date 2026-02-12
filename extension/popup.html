@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Claude Code Bridge</h1>
+
+    <div class="status-row">
+      <span id="status-dot" class="dot disconnected"></span>
+      <span id="status-text">Disconnected</span>
+    </div>
+
+    <div class="field">
+      <label for="port-input">Port</label>
+      <input type="number" id="port-input" value="7483" min="1024" max="65535">
+    </div>
+
+    <div class="actions">
+      <button id="reconnect-btn">Reconnect</button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
