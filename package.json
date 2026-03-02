@@ -1,6 +1,6 @@
 {
   "name": "claude-qa",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Claude Code <-> Chrome Extension Bridge",
   "workspaces": ["server"],
   "bin": {

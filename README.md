@@ -65,7 +65,7 @@ If the dot is red, click **Reconnect** in the popup. Make sure nothing else is u
 | `browser_wait_for` | Wait for a CSS selector to appear on the page |
 | `browser_send_message` | Send a custom message to the extension |
 
-All browser tools accept an optional `tabId` parameter. When omitted, they target the active tab.
+Most browser tools accept an optional `tabId` parameter. When omitted, they target the active tab.
 
 ## Examples
 
