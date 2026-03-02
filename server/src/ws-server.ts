@@ -47,10 +47,12 @@ export class BridgeWebSocketServer {
       const origin = req.headers.origin || "unknown";
       logger.info(`Extension connected from ${origin}`);
 
-      // Single client - close existing connection
+      // Single client - close existing connection cleanly before reassigning
       if (this.client && this.client.readyState === WebSocket.OPEN) {
         logger.info("Replacing existing client connection");
-        this.client.close(1000, "Replaced by new connection");
+        const oldClient = this.client;
+        this.client = null; // Detach first so the old close handler is a no-op
+        oldClient.close(1000, "Replaced by new connection");
       }
 
       this.client = ws;

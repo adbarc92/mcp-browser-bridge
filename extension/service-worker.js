@@ -32,6 +32,9 @@ function connect() {
     return;
   }
 
+  // Capture reference so stale onclose handlers don't clobber newer connections
+  const thisWs = ws;
+
   ws.onopen = () => {
     console.log("[Bridge] Connected to server");
     isConnecting = false;
@@ -45,10 +48,14 @@ function connect() {
 
   ws.onclose = (event) => {
     console.log(`[Bridge] Disconnected: ${event.code} ${event.reason}`);
-    ws = null;
     isConnecting = false;
-    updateBadge(false);
-    scheduleReconnect();
+    // Only update state and reconnect if this is still the active connection.
+    // Prevents stale onclose from clobbering a newer connection.
+    if (ws === thisWs) {
+      ws = null;
+      updateBadge(false);
+      scheduleReconnect();
+    }
   };
 
   ws.onerror = (event) => {
