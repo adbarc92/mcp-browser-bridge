@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": [
+    "chrome-bridge"
+  ],
+  "enableAllProjectMcpServers": true
+}
