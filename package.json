@@ -1,13 +1,48 @@
 {
-  "name": "claude-qa",
-  "version": "1.0.3",
-  "description": "Claude Code <-> Chrome Extension Bridge",
-  "workspaces": ["server"],
+  "name": "browser-bridge-mcp",
+  "version": "1.1.0",
+  "description": "MCP server that bridges AI assistants to the browser via a WebSocket-connected extension",
+  "type": "module",
   "bin": {
-    "claude-qa": "./server/build/index.js"
+    "browser-bridge-mcp": "./dist/index.js"
   },
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "build": "npm run build --workspace=server",
-    "dev": "npm run dev --workspace=server"
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "browser",
+    "chrome",
+    "automation",
+    "testing",
+    "screenshot",
+    "websocket",
+    "model-context-protocol"
+  ],
+  "author": "adbarc92",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adbarc92/browser-bridge-mcp.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "uuid": "^11.1.0",
+    "ws": "^8.18.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.18.0",
+    "typescript": "^5.7.3"
   }
 }
