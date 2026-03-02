@@ -1,9 +1,11 @@
 {
   "name": "claude-qa",
-  "version": "1.0.1",
-  "private": true,
+  "version": "1.0.2",
   "description": "Claude Code <-> Chrome Extension Bridge",
   "workspaces": ["server"],
+  "bin": {
+    "claude-qa": "./server/build/index.js"
+  },
   "scripts": {
     "build": "npm run build --workspace=server",
     "dev": "npm run dev --workspace=server"

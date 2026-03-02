@@ -31,10 +31,17 @@ export class BridgeWebSocketServer {
       port: WS_PORT,
       verifyClient: (info: { origin: string; req: import("http").IncomingMessage }) => {
         const origin = info.origin || info.req.headers.origin || "";
-        if (!origin.startsWith("chrome-extension://")) {
+        // Allow any Chromium-based browser extension (Chrome, Brave, Edge, Arc, Vivaldi, etc.)
+        // Localhost-only binding (127.0.0.1) provides the primary security boundary.
+        const allowed =
+          origin === "" ||
+          origin.endsWith("-extension://") ||
+          origin.startsWith("chrome-extension://");
+        if (!allowed) {
           logger.warn(`Rejected connection from origin: ${origin}`);
           return false;
         }
+        logger.info(`Accepted connection from origin: ${origin || "(empty)"}`);
         return true;
       },
     });
