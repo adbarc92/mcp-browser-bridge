@@ -1,0 +1,6 @@
+src/
+extension/
+docs/
+.mcp.json
+tsconfig.json
+.gitignore
