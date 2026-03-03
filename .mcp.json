@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "chrome-bridge": {
+    "browser-bridge": {
       "command": "node",
-      "args": ["./server/build/index.js"],
+      "args": ["./dist/index.js"],
       "env": {
         "BRIDGE_WS_PORT": "7483"
       }
