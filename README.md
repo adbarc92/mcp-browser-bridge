@@ -1,11 +1,11 @@
 # Browser Bridge MCP
 
-[![npm version](https://img.shields.io/npm/v/browser-bridge-mcp.svg)](https://www.npmjs.com/package/browser-bridge-mcp)
+[![npm version](https://img.shields.io/npm/v/mcp-browser-bridge.svg)](https://www.npmjs.com/package/mcp-browser-bridge)
 
 MCP server that bridges AI assistants to the browser via a WebSocket-connected extension.
 
 ```
-AI Assistant ←(MCP stdio)→ browser-bridge-mcp ←(WebSocket :7483)→ Browser Extension ←(Chrome APIs)→ Browser
+AI Assistant ←(MCP stdio)→ mcp-browser-bridge ←(WebSocket :7483)→ Browser Extension ←(Chrome APIs)→ Browser
 ```
 
 ## Quick Start
@@ -29,7 +29,7 @@ Add to your `.mcp.json` (or equivalent MCP client config):
   "mcpServers": {
     "browser-bridge": {
       "command": "npx",
-      "args": ["-y", "browser-bridge-mcp"],
+      "args": ["-y", "mcp-browser-bridge"],
       "env": { "BRIDGE_WS_PORT": "7483" }
     }
   }
@@ -99,8 +99,8 @@ Scripts run in the page's MAIN world. Results must be JSON-serializable. Promise
 ## Development
 
 ```bash
-git clone https://github.com/adbarc92/browser-bridge-mcp.git
-cd browser-bridge-mcp
+git clone https://github.com/adbarc92/mcp-browser-bridge.git
+cd mcp-browser-bridge
 npm install
 npm run build
 ```

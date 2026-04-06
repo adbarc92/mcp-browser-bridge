@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm install              # Install dependencies
 npm run build            # Compile TypeScript → dist/
 npm run dev              # TypeScript watch mode for development
-npm link                 # Register 'browser-bridge-mcp' as a global CLI command
+npm link                 # Register 'mcp-browser-bridge' as a global CLI command
 ```
 
 There is no test suite or linter configured. The extension uses plain JavaScript (no build step).
