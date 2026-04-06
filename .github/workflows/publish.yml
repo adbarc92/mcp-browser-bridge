@@ -18,6 +18,9 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org
 
+      - name: Update npm for trusted publishing
+        run: npm install -g npm@latest
+
       - run: npm ci
 
       - run: npm run build
@@ -37,6 +40,4 @@ jobs:
 
       - name: Publish
         if: steps.version.outputs.changed == 'true'
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
