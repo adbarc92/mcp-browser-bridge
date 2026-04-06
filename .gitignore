@@ -1,2 +1,22 @@
 node_modules/
 dist/
+build/
+
+# Environment
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Local config
+.claude/settings.local.json
+
+# Logs
+*.log

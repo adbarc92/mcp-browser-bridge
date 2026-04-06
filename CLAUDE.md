@@ -5,25 +5,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build & Dev Commands
 
 ```bash
-npm install              # Install all workspace dependencies
-npm run build            # Compile server TypeScript → server/build/
-npm run dev              # TypeScript watch mode for server development
-npm link                 # Register 'claude-qa' as a global CLI command
+npm install              # Install dependencies
+npm run build            # Compile TypeScript → dist/
+npm run dev              # TypeScript watch mode for development
+npm link                 # Register 'browser-bridge-mcp' as a global CLI command
 ```
 
 There is no test suite or linter configured. The extension uses plain JavaScript (no build step).
 
 ## Architecture
 
-This is a **two-way bridge** between Claude Code and Chromium browsers:
+This is a **two-way bridge** between MCP clients and Chromium browsers:
 
 ```
-Claude Code ←(MCP stdio)→ MCP Server ←(WebSocket localhost:7483)→ Browser Extension ←(Chrome APIs)→ Browser
+MCP Client ←(MCP stdio)→ MCP Server ←(WebSocket localhost:7483)→ Browser Extension ←(Chrome APIs)→ Browser
 ```
 
-**npm workspace monorepo** with one workspace (`server/`). The extension is plain JS, not a workspace.
+The extension is plain JS, not a workspace.
 
-### Server (`server/src/`)
+### Server (`src/`)
 
 TypeScript, ESM (`"type": "module"`), targets ES2022.
 
@@ -68,7 +68,7 @@ All communication uses **JSON-RPC 2.0**. Requests have UUID `id`, events have `i
 
 ## Version Bumping
 
-Version is tracked in three files that must stay in sync: `package.json` (root), `server/package.json`, and `extension/manifest.json`.
+Version is tracked in two files that must stay in sync: `package.json` and `extension/manifest.json`.
 
 ## Git Conventions
 

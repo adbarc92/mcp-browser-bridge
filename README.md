@@ -12,7 +12,13 @@ AI Assistant ←(MCP stdio)→ browser-bridge-mcp ←(WebSocket :7483)→ Browse
 
 ### 1. Install the extension
 
-Install from the [Chrome Web Store](https://chrome.google.com/webstore/detail/TODO). Works in Chrome, Brave, Edge, and other Chromium browsers.
+Install from the Chrome Web Store (coming soon), or load manually:
+
+1. Download or clone this repo.
+2. Open `chrome://extensions`, enable **Developer mode**.
+3. Click **Load unpacked** and select the `extension/` folder.
+
+Works in Chrome, Brave, Edge, and other Chromium browsers.
 
 ### 2. Add to your MCP config
 
