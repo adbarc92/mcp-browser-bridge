@@ -3,6 +3,7 @@ import { z } from "zod";
 import { METHODS, SCREENSHOT_TIMEOUT_MS, type JsonRpcError } from "./protocol.js";
 import { BridgeWebSocketServer } from "./ws-server.js";
 import { logger } from "./utils/logger.js";
+import { registerPrompts } from "./prompts.js";
 
 function errorText(err: unknown): string {
   if (typeof err === "object" && err !== null && "message" in err) {
@@ -233,6 +234,8 @@ export function createMcpServer(ws: BridgeWebSocketServer): McpServer {
       }
     }
   );
+
+  registerPrompts(mcp);
 
   return mcp;
 }
