@@ -105,6 +105,17 @@ All tools accept an optional `tabId` parameter. When omitted, they target the ac
 | `browser_wait_for` | Wait for a CSS selector to appear on the page |
 | `browser_send_message` | Send a custom message to the extension |
 
+## Included Prompts
+
+The server ships two MCP prompts that provide guided workflows to any connected client:
+
+| Prompt | Description |
+|--------|-------------|
+| `browse` | General-purpose browser interaction — navigating, clicking, filling forms, screenshotting, running JS. Accepts an optional `task` argument. |
+| `qa-runner` | Structured QA checklist execution — drives the browser through test scenarios defined in markdown and reports pass/fail results. Accepts an optional `checklist` path. |
+
+In Claude Code, these appear as slash commands: `/browser-bridge:browse` and `/browser-bridge:qa-runner`.
+
 ## Configuration
 
 The WebSocket port defaults to `7483`. To change it:
@@ -146,6 +157,7 @@ git clone https://github.com/adbarc92/mcp-browser-bridge.git
 cd mcp-browser-bridge
 npm install
 npm run build
+npm test                 # 53 tests via Vitest
 ```
 
 Load the extension locally via `chrome://extensions` → **Load unpacked** → select `extension/`.
