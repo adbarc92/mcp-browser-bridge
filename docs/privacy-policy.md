@@ -1,3 +1,8 @@
+---
+layout: default
+title: Privacy Policy — Browser Bridge MCP
+---
+
 # Privacy Policy — Browser Bridge MCP
 
 **Last updated:** April 9, 2026
