@@ -3,6 +3,7 @@ import { z } from "zod";
 import { METHODS, SCREENSHOT_TIMEOUT_MS, type JsonRpcError } from "./protocol.js";
 import { BridgeWebSocketServer } from "./ws-server.js";
 import { logger } from "./utils/logger.js";
+import { registerPrompts } from "./prompts.js";
 
 function errorText(err: unknown): string {
   if (typeof err === "object" && err !== null && "message" in err) {
@@ -18,7 +19,7 @@ function textResult(text: string, isError = false) {
 export function createMcpServer(ws: BridgeWebSocketServer): McpServer {
   const mcp = new McpServer({
     name: "browser-bridge",
-    version: "1.1.0",
+    version: "1.2.0",
   });
 
   // 1. browser_status
@@ -233,6 +234,8 @@ export function createMcpServer(ws: BridgeWebSocketServer): McpServer {
       }
     }
   );
+
+  registerPrompts(mcp);
 
   return mcp;
 }
