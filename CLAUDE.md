@@ -8,10 +8,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm install              # Install dependencies
 npm run build            # Compile TypeScript → dist/
 npm run dev              # TypeScript watch mode for development
+npm test                 # Run test suite (vitest)
+npm run test:watch       # Run tests in watch mode
 npm link                 # Register 'mcp-browser-bridge' as a global CLI command
 ```
 
-There is no test suite or linter configured. The extension uses plain JavaScript (no build step).
+Tests use Vitest and live alongside source files (`src/**/*.test.ts`). They are excluded from the TypeScript build via `tsconfig.json`. The WebSocket server tests use port 17483 to avoid conflicts with a running server.
+
+The extension uses plain JavaScript (no build step). No linter is configured.
 
 ## Architecture
 
@@ -28,7 +32,8 @@ The extension is plain JS, not a workspace.
 TypeScript, ESM (`"type": "module"`), targets ES2022.
 
 - **`index.ts`** — Entry point with shebang for global CLI. Creates WebSocket server, MCP server, wires events, handles graceful shutdown.
-- **`mcp-server.ts`** — Defines 11 MCP tools (`browser_status`, `browser_navigate`, `browser_screenshot`, `browser_evaluate`, `browser_click`, `browser_fill`, `browser_get_content`, `browser_get_tabs`, `browser_get_console`, `browser_wait_for`, `browser_send_message`). Uses Zod for parameter validation.
+- **`mcp-server.ts`** — Defines 11 MCP tools (`browser_status`, `browser_navigate`, `browser_screenshot`, `browser_evaluate`, `browser_click`, `browser_fill`, `browser_get_content`, `browser_get_tabs`, `browser_get_console`, `browser_wait_for`, `browser_send_message`). Uses Zod for parameter validation. Registers prompts via `prompts.ts`.
+- **`prompts.ts`** — Registers MCP prompts (`browse`, `qa-runner`) that ship browsing and QA workflow instructions to any connected MCP client.
 - **`ws-server.ts`** — WebSocket server on `127.0.0.1:7483`. Single-client model (replaces stale connections). Origin verification accepts any `-extension://` protocol. JSON-RPC 2.0 request/response with UUID tracking. Keepalive ping every 20s.
 - **`protocol.ts`** — JSON-RPC 2.0 types, method names, event names, error codes (-32000 to -32003 for domain errors), timeout constants.
 - **`utils/logger.ts`** — Stderr logger controlled by `BRIDGE_LOG_LEVEL` env var.
