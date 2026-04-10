@@ -19,7 +19,7 @@ function textResult(text: string, isError = false) {
 export function createMcpServer(ws: BridgeWebSocketServer): McpServer {
   const mcp = new McpServer({
     name: "browser-bridge",
-    version: "1.1.0",
+    version: "1.2.0",
   });
 
   // 1. browser_status

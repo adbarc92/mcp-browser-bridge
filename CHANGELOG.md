@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.0] - 2026-04-09
+
+### Added
+
+- MCP prompts (`browse`, `qa-runner`) — browsing and QA workflow instructions ship through the MCP protocol, available automatically in any connected client
+- Generalized skill files in `skills/` for Claude Code and other agents
+- Vitest test suite — 53 tests covering MCP server, prompts, WebSocket server, and pending requests
+- Portfolio page brief in `docs/`
+
 ## [1.0.3] - 2026-03-01
 
 ### Fixed
