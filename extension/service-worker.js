@@ -86,6 +86,29 @@ function scheduleReconnect() {
   }, reconnectDelay);
 }
 
+// --- MV3 keepalive (disconnect recovery) ---
+// Manifest V3 suspends an idle service worker (~30s), which silently kills the WebSocket
+// AND discards the setTimeout-based scheduleReconnect timer — so without a wakeup source the
+// socket never reconnects until some unrelated browser event happens to revive the worker.
+// chrome.alarms is the only timer that survives suspension: it wakes the worker on a fixed
+// cadence, re-running this script (which reconnects) and re-establishing a dropped socket.
+const KEEPALIVE_ALARM = "bridge-keepalive";
+chrome.alarms.create(KEEPALIVE_ALARM, { periodInMinutes: 0.5 }); // Chrome clamps to ~30s minimum
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name !== KEEPALIVE_ALARM) return;
+  if (!ws || ws.readyState === WebSocket.CLOSED || ws.readyState === WebSocket.CLOSING) {
+    // A pending reconnect timer may have been lost to suspension — reset backoff and retry now.
+    reconnectDelay = 1000;
+    connect();
+  } else if (ws.readyState === WebSocket.OPEN) {
+    ws.send("pong"); // server ignores "pong"; keeps the socket warm
+  }
+});
+
+// Re-establish the socket when the browser revives the worker after a restart.
+chrome.runtime.onStartup.addListener(() => connect());
+
 function updateBadge(connected) {
   const color = connected ? "#22c55e" : "#ef4444";
   const text = connected ? "ON" : "";
