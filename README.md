@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/mcp-browser-bridge.svg)](https://www.npmjs.com/package/mcp-browser-bridge)
 
-MCP server that gives AI coding assistants direct access to the browser — navigate, click, fill forms, run JavaScript, take screenshots, and read page content.
+MCP server that gives AI coding assistants direct control of a real Chrome browser — navigate, click, fill forms, run JavaScript, take screenshots, and read page content. It exists so your assistant can see what you see, instead of you alt-tabbing to copy-paste errors and describe UI state in words.
 
 ```
 MCP Client ←(stdio)→ mcp-browser-bridge ←(WebSocket :7483)→ Browser Extension ←(Chrome APIs)→ Browser
@@ -65,6 +65,22 @@ Add to `.cursor/mcp.json`:
 <summary><strong>Windsurf</strong></summary>
 
 Add to `~/.codeium/windsurf/mcp_config.json`:
+```json
+{
+  "mcpServers": {
+    "browser-bridge": {
+      "command": "npx",
+      "args": ["-y", "mcp-browser-bridge"]
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>Cline</strong></summary>
+
+In the Cline pane, open **MCP Servers** → **Configure MCP Servers** to edit `cline_mcp_settings.json`, and add:
 ```json
 {
   "mcpServers": {
@@ -157,7 +173,7 @@ git clone https://github.com/adbarc92/mcp-browser-bridge.git
 cd mcp-browser-bridge
 npm install
 npm run build
-npm test                 # 53 tests via Vitest
+npm test                 # 57 tests via Vitest
 ```
 
 Load the extension locally via `chrome://extensions` → **Load unpacked** → select `extension/`.

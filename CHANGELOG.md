@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.1] - 2026-07-23
+
+### Fixed
+
+- Extension now recovers its WebSocket connection after the Manifest V3 service worker is suspended and revived (adds the `alarms` permission plus a keepalive)
+
+### Changed
+
+- README: add Cline setup instructions and correct the test count (now 57)
+
 ## [1.2.0] - 2026-04-09
 
 ### Added
