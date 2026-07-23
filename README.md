@@ -14,10 +14,10 @@ Works with any MCP-compatible client: Claude Code, Cursor, Windsurf, Cline, and 
 
 ### 1. Install the extension
 
-Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/browser-bridge-mcp/imdkejagogpjpjfdcncahmnkgfockpcp), or load manually:
+Load it as an unpacked extension:
 
 1. Download or clone this repo.
-2. Open `chrome://extensions`, enable **Developer mode**.
+2. Open `chrome://extensions` and enable **Developer mode**.
 3. Click **Load unpacked** and select the `extension/` folder.
 
 Works in any Chromium browser: Chrome, Brave, Edge, Arc, Vivaldi, Opera.
