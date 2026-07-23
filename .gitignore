@@ -18,5 +18,8 @@ Thumbs.db
 # Local config
 .claude/settings.local.json
 
+# Internal notes (not for the public repo)
+docs/portfolio-page-brief.md
+
 # Logs
 *.log
