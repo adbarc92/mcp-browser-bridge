@@ -40,13 +40,22 @@ All communication stays on your machine. No data is sent to any remote server or
 
 ## Quick Start
 
-```sh
-# Add to Claude Code
-claude mcp add browser-bridge -- npx -y mcp-browser-bridge
+**1. Load the extension.** It ships as plain JavaScript with no build step — load it unpacked:
 
-# Install the Chrome extension from the Web Store
-# That's it. Start using browser_* tools.
+1. Download or clone [the repo](https://github.com/adbarc92/mcp-browser-bridge).
+2. Open `chrome://extensions` and enable **Developer mode**.
+3. Click **Load unpacked** and select the `extension/` folder.
+
+Works in any Chromium browser: Chrome, Brave, Edge, Arc, Vivaldi, Opera.
+
+**2. Add the server to your MCP client.**
+
+```sh
+# Claude Code
+claude mcp add browser-bridge -- npx -y mcp-browser-bridge
 ```
+
+That's it. Start using `browser_*` tools.
 
 ## Technical Highlights
 
@@ -60,7 +69,6 @@ claude mcp add browser-bridge -- npx -y mcp-browser-bridge
 
 - [GitHub](https://github.com/adbarc92/mcp-browser-bridge)
 - [npm](https://www.npmjs.com/package/mcp-browser-bridge)
-- [Chrome Web Store](https://chromewebstore.google.com/detail/browser-bridge-mcp/imdkejagogpjpjfdcncahmnkgfockpcp)
 - [Privacy Policy](privacy-policy)
 
 ## License
