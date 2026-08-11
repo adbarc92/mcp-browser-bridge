@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.2] - 2026-08-10
+
+### Fixed
+
+- Published package README previously linked a Chrome Web Store listing that is not live; the install path is loading the unpacked extension from this repo. The repository was corrected in 1.2.1 but the fix landed at an already-published version, so the registry continued to serve the outdated README until this release
+
 ## [1.2.1] - 2026-07-23
 
 ### Fixed
