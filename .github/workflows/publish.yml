@@ -1,3 +1,7 @@
+# NOTE: the filename matters. npm trusted publishing binds this package's OIDC
+# publisher to .github/workflows/publish.yml; renaming this file makes npm reject
+# the OIDC exchange and npm publish fails with E404. Do not rename without also
+# updating the trusted publisher on npmjs.com.
 name: CI
 
 on:
