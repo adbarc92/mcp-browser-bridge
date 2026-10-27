@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git remote *)",
+      "WebFetch(domain:chromewebstore.google.com)",
+      "PowerShell($u='https://chromewebstore.google.com/detail/browser-bridge-mcp/imdkejagogpjpjfdcncahmnkgfockpcp'; try { $r = Invoke-WebRequest -Uri $u -MaximumRedirection 5 -SkipHttpErrorCheck -ErrorAction Stop; \"STATUS=$\\($r.StatusCode\\) $\\($r.StatusDescription\\)\"; \"FINALURI=$\\($r.BaseResponse.RequestMessage.RequestUri\\)\"; \"LENGTH=$\\($r.Content.Length\\)\" } catch { \"ERR=$\\($_.Exception.Message\\)\"; \"STATUS=$\\($_.Exception.Response.StatusCode.value__\\)\" })",
+      "Bash(git mv *)",
+      "Bash(netstat -aon)"
+    ]
+  }
+}
