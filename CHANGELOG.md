@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.3] - 2026-10-28
+
+### Security
+
+- The WebSocket server now accepts connections only from this project's extension, `chrome-extension://oohfadbpiimgdciaopnehkldlakgdmhf`. Before this release it accepted any browser extension's origin and connections with no `Origin` header, so any other installed extension could drive the browser through the bridge. Rejected handshakes get HTTP 403
+- `extension/manifest.json` now pins a public `key`, so the extension has the same ID for every unpacked install instead of an ID derived from its folder path
+
+### Changed
+
+- When another extension was refused, `browser_status` and the "not connected" tool error name the refused origin and explain how to reinstall. A refused origin's repeated retries are logged at debug level after the first warning
+- The MCP server reports version 1.2.3; it had been stuck at 1.2.0
+
+### Upgrading (action required)
+
+- The 1.2.3 server refuses extensions loaded from an earlier copy. `npx -y mcp-browser-bridge` may pick up 1.2.3 on its own, so reinstall the extension even if you didn't upgrade on purpose
+- Update your copy of the `extension/` folder, then in `chrome://extensions` remove the old extension and **Load unpacked** it again. Its ID changes to the pinned one, and the 1.2.3 server refuses extensions from earlier copies. Re-enter a custom port in the popup if you had set one, because the stored setting belonged to the old ID
+
 ## [1.2.2] - 2026-08-10
 
 ### Fixed
