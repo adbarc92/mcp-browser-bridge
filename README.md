@@ -142,8 +142,15 @@ The WebSocket port defaults to `7483`. To change it:
 ## Security
 
 - WebSocket binds to `127.0.0.1` only — no network exposure.
-- Connections restricted to browser extension origins.
+- The server accepts exactly one origin, this project's extension at `chrome-extension://oohfadbpiimgdciaopnehkldlakgdmhf`. It refuses everything else with HTTP 403: other extensions' origins, web pages, and clients that send no `Origin` header.
+- The extension ID is stable because `extension/manifest.json` pins a public `key`. Chromium derives an extension's ID from that key, so every unpacked install gets the same ID regardless of which folder you load it from. Don't remove or change the `key`, or the server will refuse the extension.
 - Single extension client at a time.
+
+The origin check stops websites, and extensions that connect under their own origin, from driving your browser through the bridge. `Origin` is still a header the client asserts, so the check has limits:
+- A program running on your machine as your user can send any `Origin` it likes, and such a program could control your browser by other means anyway.
+- An installed extension that can rewrite request headers might be able to forge the `Origin`.
+
+Only install extensions you trust alongside this one.
 
 ## Troubleshooting
 
@@ -160,6 +167,9 @@ netstat -aon | findstr :7483
 **Tools return "No extension connected"**
 Open the extension popup and click Reconnect.
 
+**Server logs `Rejected connection from origin`, or `browser_status` says an extension was refused**
+The extension's ID doesn't match the one the server accepts. This happens if you're running an extension copy from before 1.2.3, or one whose `manifest.json` has had its `key` removed. Update your copy of the repo, then in `chrome://extensions` remove the old **Browser Bridge MCP** and **Load unpacked** the `extension/` folder again. Its ID should read `oohfadbpiimgdciaopnehkldlakgdmhf`.
+
 **Screenshots fail**
 The target tab must be visible and focused. Background or minimized tabs cannot be captured.
 
@@ -173,7 +183,7 @@ git clone https://github.com/adbarc92/mcp-browser-bridge.git
 cd mcp-browser-bridge
 npm install
 npm run build
-npm test                 # 57 tests via Vitest
+npm test                 # 67 tests via Vitest
 ```
 
 Load the extension locally via `chrome://extensions` → **Load unpacked** → select `extension/`.

@@ -63,3 +63,10 @@ export const DEFAULT_TIMEOUT_MS = 30_000;
 export const SCREENSHOT_TIMEOUT_MS = 60_000;
 export const KEEPALIVE_INTERVAL_MS = 20_000;
 export const WS_PORT = parseInt(process.env.BRIDGE_WS_PORT || "7483", 10);
+
+// The only origin allowed to connect. The extension ID is pinned by the `key` field in
+// extension/manifest.json (Chromium derives the ID from that public key, so it is the same
+// for every unpacked install). If the key changes, this ID must change with it; the
+// ws-server tests derive the ID from the manifest and fail on a mismatch.
+export const EXTENSION_ID = "oohfadbpiimgdciaopnehkldlakgdmhf";
+export const EXTENSION_ORIGIN = `chrome-extension://${EXTENSION_ID}`;

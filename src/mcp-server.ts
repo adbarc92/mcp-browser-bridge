@@ -19,7 +19,7 @@ function textResult(text: string, isError = false) {
 export function createMcpServer(ws: BridgeWebSocketServer): McpServer {
   const mcp = new McpServer({
     name: "browser-bridge",
-    version: "1.2.0",
+    version: "1.2.3",
   });
 
   // 1. browser_status
@@ -29,9 +29,11 @@ export function createMcpServer(ws: BridgeWebSocketServer): McpServer {
     {},
     async () => {
       if (!ws.isConnected) {
+        const base = "No Chrome extension connected. Load the extension and ensure it shows 'Connected'.";
+        const hint = ws.refusedExtensionHint;
         return textResult(JSON.stringify({
           connected: false,
-          message: "No Chrome extension connected. Load the extension and ensure it shows 'Connected'.",
+          message: hint ? `${base} ${hint}` : base,
         }, null, 2));
       }
       try {
