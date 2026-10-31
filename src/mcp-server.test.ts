@@ -77,6 +77,20 @@ describe("createMcpServer", () => {
       expect(parsed.message).toContain("No Chrome extension connected");
     });
 
+    it("includes the refused-extension hint when an extension was turned away", async () => {
+      const hint = "An extension (chrome-extension://old) tried to connect and was refused.";
+      const disconnectedWs = mockWs({ isConnected: false, refusedExtensionHint: hint });
+      const server = createMcpServer(disconnectedWs);
+      const tool = getTools(server).browser_status;
+
+      const result = await tool.handler({});
+      const parsed = JSON.parse(result.content[0].text);
+
+      expect(parsed.connected).toBe(false);
+      expect(parsed.message).toContain("No Chrome extension connected");
+      expect(parsed.message).toContain(hint);
+    });
+
     it("returns connected: true with status data when connected", async () => {
       const statusData = { activeTab: { id: 1, url: "https://example.com", title: "Example" } };
       const connectedWs = mockWs({ send: vi.fn().mockResolvedValue(statusData) });

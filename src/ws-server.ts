@@ -1,6 +1,7 @@
 import { WebSocketServer, WebSocket } from "ws";
 import {
   ErrorCodes,
+  EXTENSION_ORIGIN,
   KEEPALIVE_INTERVAL_MS,
   WS_PORT,
   type JsonRpcMessage,
@@ -20,29 +21,50 @@ export class BridgeWebSocketServer {
   private pendingRequests = new PendingRequests();
   private keepaliveTimer: ReturnType<typeof setInterval> | null = null;
   private eventHandlers = new Map<string, EventHandler[]>();
+  private lastRejectedOrigin: string | null = null;
+  private lastRejectedExtensionOrigin: string | null = null;
 
   get isConnected(): boolean {
     return this.client !== null && this.client.readyState === WebSocket.OPEN;
+  }
+
+  // When some other extension (typically a copy from before 1.2.3, whose ID was derived from
+  // its folder path) was refused, explain why so the "not connected" error is actionable.
+  get refusedExtensionHint(): string | null {
+    if (!this.lastRejectedExtensionOrigin) return null;
+    return (
+      `An extension (${this.lastRejectedExtensionOrigin}) tried to connect and was refused: ` +
+      `since 1.2.3 the server only accepts ${EXTENSION_ORIGIN}. If that is an older copy of ` +
+      `Browser Bridge MCP, update it, remove it in chrome://extensions, and Load unpacked the ` +
+      `extension/ folder again.`
+    );
   }
 
   start(): void {
     this.wss = new WebSocketServer({
       host: "127.0.0.1",
       port: WS_PORT,
-      verifyClient: (info: { origin: string; req: import("http").IncomingMessage }) => {
-        const origin = info.origin || info.req.headers.origin || "";
-        // Allow any Chromium-based browser extension (Chrome, Brave, Edge, Arc, Vivaldi, etc.)
-        // Localhost-only binding (127.0.0.1) provides the primary security boundary.
-        const allowed =
-          origin === "" ||
-          origin.endsWith("-extension://") ||
-          origin.startsWith("chrome-extension://");
-        if (!allowed) {
-          logger.warn(`Rejected connection from origin: ${origin}`);
-          return false;
+      verifyClient: (
+        info: { origin: string | undefined; req: import("http").IncomingMessage },
+        callback: (result: boolean, code?: number, message?: string) => void,
+      ) => {
+        // Only this project's extension may connect: exact match on its pinned origin.
+        // Other extensions, web pages, and clients sending no Origin header are refused.
+        const origin = info.origin ?? null;
+        if (origin !== EXTENSION_ORIGIN) {
+          // A refused extension retries every <=30s forever; warn once per origin, not per retry.
+          const message = `Rejected connection from origin: ${JSON.stringify(origin)}`;
+          if (origin === this.lastRejectedOrigin) logger.debug(message);
+          else logger.warn(message);
+          this.lastRejectedOrigin = origin;
+          if (origin?.startsWith("chrome-extension://")) {
+            this.lastRejectedExtensionOrigin = origin;
+          }
+          callback(false, 403, "Forbidden");
+          return;
         }
-        logger.info(`Accepted connection from origin: ${origin || "(empty)"}`);
-        return true;
+        logger.info(`Accepted connection from origin: ${origin}`);
+        callback(true);
       },
     });
 
@@ -109,9 +131,11 @@ export class BridgeWebSocketServer {
 
   async send(method: string, params?: Record<string, unknown>, timeoutMs?: number): Promise<unknown> {
     if (!this.isConnected) {
+      const base = "No Chrome extension connected. Please open the extension and check the connection.";
+      const hint = this.refusedExtensionHint;
       throw {
         code: ErrorCodes.NOT_CONNECTED,
-        message: "No Chrome extension connected. Please open the extension and check the connection.",
+        message: hint ? `${base} ${hint}` : base,
       } satisfies JsonRpcError;
     }
 

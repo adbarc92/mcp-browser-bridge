@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Browser Bridge MCP",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Connects MCP servers to your browser for automation, testing, and screenshots via WebSocket",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2rZQD+hq4+qPzv/QvO+dsBsF1TmGIAakVueV32u/U0CIFDx/t5r6LzbTDyq8hfqdCtsiRMIvi67K/c0HALErmGxXZZMkb+cLK7oVJmMTjqeEZk26upErijvUK7ohJAfa96pRIf28ML0nakiXTnGoBK+FXOboJ0eHtyI7GMLOH0E4Is7wr+r7kElGBP+ptIKS42BoOrsRxlLLQOa1Bq7zOXuaM1VrLcrEBPKUs7S9J3EtRJLfJPD3lsCZjQl5wMCAc8qrW89LzIXN6f3gPBjxN0jj6fOHHLuSZdnfW0OfmmxaQ7Y0bpna/guSpqwoUBJarDSKA5jkZzd/dBir0LewxQIDAQAB",
   "minimum_chrome_version": "116",
   "permissions": [
     "activeTab",
